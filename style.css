@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+    font-family: "Cormorant Unicase," serif;
+    overflow: hidden;
+    background-color: #10052c;
+    color:#f39776;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+  }
+
+  p {
+    text-align: center;
+  }
+
+  .cormorant-unicase-semibold {
+    font-family: "Cormorant Unicase", serif;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 40px;
+  }
+
+  .cormorant-unicase-regular {
+    font-family: "Cormorant Unicase", serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  #game-container {
+    position: relative;
+    width: 800px;
+    height: 400px;
+    margin: 20px auto;
+    border: 10px solid #e35926;
+    background: none;
+    overflow: hidden;
+    border-radius: 30px;
+  }
+
+  .bosque {
+    width: 800px;
+    height: auto;
+    filter: saturate(60%);
+  }
+
+  .personaje {
+    width: 75px;
+    position: absolute;
+    bottom: 0;
+    left: 100px;
+  }
+  
+  .moneda {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: gold;
+    box-shadow: 0 0 10px 2px rgba(255, 223, 0, 0.8);
+  }
