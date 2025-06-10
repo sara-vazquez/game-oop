@@ -51,13 +51,13 @@ class Game {
            this.actualizarPosicion();
        }
        mover(evento) {
-        if (evento.key === "ArrowRight" && this.x + this.width < 800) {
+        if (evento.key === "ArrowRight" && this.x + this.width < 750) {
           this.x += this.velocidad;
         } else if (evento.key === "ArrowLeft" && this.x > 0) {
           this.x -= this.velocidad;
         } else if (evento.key === "ArrowUp" && this.y > 0) {
           this.y -= this.velocidad;
-        } else if (evento.key === "ArrowDown" && this.y + this.height < 400) {
+        } else if (evento.key === "ArrowDown" && this.y + this.height < 350) {
           this.y += this.velocidad;
         }
         this.actualizarPosicion();
