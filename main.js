@@ -35,7 +35,7 @@ class Game {
     }
     actualizarPuntuacion(puntos) {
        this.puntuacion += puntos;
-       this.puntosElement.textContent = `Punto: ${this.puntuacion}`;
+       this.puntosElement.textContent = `puntos: ${this.puntuacion}`;
     }
    }
    
@@ -45,62 +45,25 @@ class Game {
            this.y = 300;
            this.width = 50;
            this.height = 50;
-           this.velocidad = 20;
-           this.saltando = false;
-           this.ultimoSalto = 0; //marca de tiempo del último salto
-           this.umbralDobleSalto = 1000; //ms máximos entre dos pulsaciones
+           this.velocidad = 30;
            this.element = document.createElement("div");
            this.element.classList.add("personaje");
            this.actualizarPosicion();
        }
        mover(evento) {
-         if (evento.key === "ArrowRight") {
-           this.x += this.velocidad;
-         } else if (evento.key === "ArrowLeft") {
-           this.x -= this.velocidad;
-         } else if (evento.code === "Space") {
-           const ahora = Date.now();
-           if (ahora - this.ultimoSalto < this.umbralDobleSalto) {
-               this.saltar(20);
-           } else {
-               this.saltar(10);
-           }
-           this.ultimoSalto = ahora;
-       }
-         
-         this.actualizarPosicion();
-           
-       }
-       saltar(altura) {
-           if (this.saltando) return;
-           this.saltando = true;
-   
-           let alturaMaxima = this.y - altura * 10;
-   
-           const salto = setInterval(() => {
-               if (this.y > alturaMaxima) {
-                   this.y -=10;
-               }else {
-                   clearInterval(salto);
-                   this.caer();
-               }
-               this.actualizarPosicion();
-               },20);
-       }
-   
-       caer() {
-           const suelo = 300;
-           const gravedad = setInterval(() => {
-               if (this.y < suelo) {
-                   this.y += 10;
-               } else {
-                   clearInterval(gravedad);
-                   this.y = suelo;
-                   this.saltando = false;
-               }
-               this.actualizarPosicion();
-           },20)
-       }
+        if (evento.key === "ArrowRight" && this.x + this.width < 800) {
+          this.x += this.velocidad;
+        } else if (evento.key === "ArrowLeft" && this.x > 0) {
+          this.x -= this.velocidad;
+        } else if (evento.key === "ArrowUp" && this.y > 0) {
+          this.y -= this.velocidad;
+        } else if (evento.key === "ArrowDown" && this.y + this.height < 400) {
+          this.y += this.velocidad;
+        }
+        this.actualizarPosicion();
+      }
+      
+
        actualizarPosicion() {
            this.element.style.left = `${this.x}px`;
            this.element.style.top = `${this.y}px`;
