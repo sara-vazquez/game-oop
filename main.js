@@ -4,9 +4,15 @@ class Game {
        this.personaje = null;
        this.monedas = [];
        this.puntuacion = 0;
+
        this.crearEscenario();
        this.agregarEventos();
        this.puntosElement = document.getElementById("puntos");
+
+       this.overlay = document.getElementById('win-overlay');
+       this.jugarBtn = document.getElementById('jugar-btn');
+
+       this.jugarBtn.addEventListener("click", () => this.reiniciarJuego());
     }
     crearEscenario() {
        this.personaje = new Personaje();
@@ -31,8 +37,7 @@ class Game {
                    this.actualizarPuntuacion(10);
 
                    if (this.monedas.length === 0) {
-                    const jugarBtn = document.getElementById('jugar-btn');
-                    jugarBtn.classList.remove('hidden');
+                    this.mostrarVentanaGanadora();
                    }
                }
            });
@@ -40,8 +45,26 @@ class Game {
     }
     actualizarPuntuacion(puntos) {
        this.puntuacion += puntos;
-       this.puntosElement.textContent = `puntos: ${this.puntuacion}`;
+       this.puntosElement.textContent = `puntos 0/100: ${this.puntuacion}`;
     }
+    mostrarVentanaGanadora(){
+        this.overlay.style.display = 'flex';
+        const winMessage = document.getElementById('win-message');
+        winMessage.innerText = `¡enhorabuena!`;
+        const modalText = document.getElementById('modal-text');
+        modalText.innerText = `has ganado el juego 🏆✨`;
+        this.gameStarted = false;
+    }
+    reiniciarJuego() {
+        this.overlay.style.display = 'none';
+        this.container.innerHTML = ''; 
+        this.monedas = []; 
+        this.puntuacion = 0; 
+        this.personaje = new Personaje();
+        this.container.appendChild(this.personaje.element);
+        this.crearEscenario(); 
+        this.updateScore();
+       }
    }
 
    const toggleSwitch = document.getElementById('toggleMusic');
@@ -56,14 +79,14 @@ class Game {
     }
    });
    music.addEventListener('ended', () => toggleMusic.checked = false);
-   
+
    class Personaje {
        constructor() {
            this.x = 50;
            this.y = 300;
            this.width = 50;
            this.height = 50;
-           this.velocidad = 40;
+           this.velocidad = 30;
            this.element = document.createElement("div");
            this.element.classList.add("personaje");
            this.actualizarPosicion();
@@ -81,7 +104,6 @@ class Game {
         this.actualizarPosicion();
       }
       
-
        actualizarPosicion() {
            this.element.style.left = `${this.x}px`;
            this.element.style.top = `${this.y}px`;
@@ -111,9 +133,11 @@ class Game {
            this.element.style.top = `${this.y}px`;
        }
    }
+
    const jugarBtn = document.getElementById('jugar-btn');   
    jugarBtn.addEventListener('click', () => {
     location.reload();
    });
+   
    const juego = new Game();
    
