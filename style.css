@@ -12,6 +12,26 @@ body {
     flex-direction: column;
   }
 
+  .hidden{
+    display: none;
+  }
+  
+  #jugar-btn {
+    background-color:#f39776;
+    color: #10052c;
+    font-family: "Cormorant Unicase," serif;
+    font-size: 20px;
+    padding: 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+
+  #jugar-btn:hover {
+    background-color:rgb(228, 173, 153);
+    color: #e35926;  
+  }
+
   #instructions-container {
     text-align: center;
     font-family: "Cormorant Unicase", serif;
@@ -30,6 +50,69 @@ body {
     font-weight: 400;
     font-style: normal;
     font-size: 24px;
+  }
+
+  .fa-music {
+    font-size: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    }
+
+  .switch {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    width: 60px;
+    height: 36px;
+    margin-top: 20px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 4px;
+    bottom: 5px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #e35926;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
   }
 
   #game-container {

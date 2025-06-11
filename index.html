@@ -8,18 +8,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
     <h1 class="cormorant-unicase-semibold"> el hada del bosque 🧚🏻‍♀️</h1>
     <div id="instructions-container">🌟✨ Ayuda a este hada a recoger todas las estrellitas ✨🌟<br>
-        Utiliza las flechas "→", "←" para volar de izquierda a derecha<br>y las flechas "↑", "↓" para volar arriba y abajo.</span>
+        Utiliza las flechas "→", "←" para volar de derecha a izquierda<br>y las flechas "↑", "↓" para volar arriba y abajo.</span>
          </div><br>
         <div id="puntos" class="cormorant-unicase-regular">puntos: 0/100</div>
-        </div>
+        <label class="switch">
+            <input type="checkbox" id="toggleMusic" aria-label="Música">
+            <span class="slider round"></span>
+            <i class="fa-solid fa-music"></i>
+        </label>
+        <audio id="music" src="./assets/Pufino - Village (freetouse.com).mp3" preload="auto" hidden></audio>
+    </div>
     <div id="game-container">
         <img src="./assets/bosque.jpg" alt="bosque encantado" class="bosque">
     
     </div>
+    <button class="cormorant-unicase-regular hidden" id="jugar-btn">jugar de nuevo</button>
     <script type="module" src="main.js"></script> 
 </body>
 </html>

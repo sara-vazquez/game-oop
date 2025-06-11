@@ -29,6 +29,11 @@ class Game {
                    this.container.removeChild(moneda.element);
                    this.monedas.splice(index, 1);
                    this.actualizarPuntuacion(10);
+
+                   if (this.monedas.length === 0) {
+                    const jugarBtn = document.getElementById('jugar-btn');
+                    jugarBtn.classList.remove('hidden');
+                   }
                }
            });
        },100);
@@ -38,6 +43,19 @@ class Game {
        this.puntosElement.textContent = `puntos: ${this.puntuacion}`;
     }
    }
+
+   const toggleSwitch = document.getElementById('toggleMusic');
+   const music = document.getElementById('music');
+
+   toggleSwitch.addEventListener('change', function() {
+    if (this.checked) {
+        music.play();
+    }else {
+        music.pause();
+        music.currentTime = 0;
+    }
+   });
+   music.addEventListener('ended', () => toggleMusic.checked = false);
    
    class Personaje {
        constructor() {
@@ -45,7 +63,7 @@ class Game {
            this.y = 300;
            this.width = 50;
            this.height = 50;
-           this.velocidad = 30;
+           this.velocidad = 40;
            this.element = document.createElement("div");
            this.element.classList.add("personaje");
            this.actualizarPosicion();
@@ -93,6 +111,9 @@ class Game {
            this.element.style.top = `${this.y}px`;
        }
    }
-   
+   const jugarBtn = document.getElementById('jugar-btn');   
+   jugarBtn.addEventListener('click', () => {
+    location.reload();
+   });
    const juego = new Game();
    
