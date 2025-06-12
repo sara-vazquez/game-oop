@@ -5,11 +5,12 @@ class Game {
        this.monedas = [];
        this.puntuacion = 0;
        this.witches = [];
+       this.over = false;
 
        this.crearEscenario();
        this.agregarEventos();
        this.puntosElement = document.getElementById("puntos");
-       this.witchesGenerator();
+       this.witchGenerator();
 
        this.overlay = document.getElementById('win-overlay');
        this.jugarBtn = document.getElementById('jugar-btn');
@@ -19,7 +20,7 @@ class Game {
     crearEscenario() {
        this.personaje = new Personaje();
        this.container.appendChild(this.personaje.element);
-       for (let i = 0; i < 10; i++) {
+       for (let i = 0; i < 30; i++) {
            const moneda = new Moneda();
            this.monedas.push(moneda);
            this.container.appendChild(moneda.element);
@@ -43,12 +44,20 @@ class Game {
                    }
                }
            });
+
+           this.witches.forEach((witch) => {
+            if (this.personaje.colisionaCon(witch)) {
+                this.gameOver();
+            }
+           });
        },100);
     }
+
     actualizarPuntuacion(puntos) {
        this.puntuacion += puntos;
-       this.puntosElement.textContent = `puntos 0/100: ${this.puntuacion}`;
+       this.puntosElement.textContent = `puntos ${this.puntuacion}/300: `;
     }
+
     mostrarVentanaGanadora(){
         this.overlay.style.display = 'flex';
         const winMessage = document.getElementById('win-message');
@@ -56,7 +65,70 @@ class Game {
         const modalText = document.getElementById('modal-text');
         modalText.innerText = `has ganado el juego 🏆✨`;
         this.gameStarted = false;
+        
+        clearInterval(this.witchInterval);
+        this.witches.forEach(witch => {
+  if (this.container.contains(witch.element)) {
+    this.container.removeChild(witch.element);
+  }
+        });
+        this.witches = [];
     }
+
+    witchGenerator(){
+        this.witchInterval = setInterval(() => {
+            if (this.witches.length < 3) {
+                this.createWitch();
+            }
+        }, 500);
+    }
+
+    createWitch() {
+        const side = Math.random() < 0.7 ? "left" : "right";
+
+        let witch;
+        const type = Math.random();
+        if (type < 0.5) {
+            witch = new CrawlingWitch(side);
+        } else {
+            witch = new FlyingWitch(side);
+        }
+
+        this.witches.push(witch);
+        this.container.appendChild(witch.element);
+
+        const moveInterval = setInterval(() => {
+            if (!witch.offScreen()) {
+                witch.moves();
+            } else {
+                clearInterval(moveInterval);
+                if (this.container.contains(witch.element)) {
+                    this.container.removeChild(witch.element);
+                }
+                this.witches = this.witches.filter((a) => a !== witch);
+            }
+        }, 20);
+    }
+
+    gameOver(){
+        if (!this.over) {
+            this.over = true;
+            
+            setTimeout(() => {
+                alert("¡Nooo, las brujas te han atrapado 🧙🏻‍♀️! Ya sabemos cuál será su próximo ingrediente en la poción...🪦 ")
+                clearInterval(this.witchInterval);
+                this.witches.forEach(witch => {
+                    if (this.container.contains(witch.element)) {
+                        this.container.removeChild(witch.element);
+                    }
+                });
+                this.witches = [];
+                this.container.innerHTML = "";
+                new Game();
+            }, 100);
+        }
+    }
+
     reiniciarJuego() {
         this.overlay.style.display = 'none';
         this.container.innerHTML = ''; 
@@ -69,26 +141,13 @@ class Game {
        }
    }
 
-   const toggleSwitch = document.getElementById('toggleMusic');
-   const music = document.getElementById('music');
-
-   toggleSwitch.addEventListener('change', function() {
-    if (this.checked) {
-        music.play();
-    }else {
-        music.pause();
-        music.currentTime = 0;
-    }
-   });
-   music.addEventListener('ended', () => toggleMusic.checked = false);
-
    class Personaje {
        constructor() {
-           this.x = 50;
+           this.x = 400;
            this.y = 300;
            this.width = 50;
            this.height = 50;
-           this.velocidad = 30;
+           this.velocidad = 40;
            this.element = document.createElement("div");
            this.element.classList.add("personaje");
            this.element.classList.add("bounce");
@@ -139,10 +198,79 @@ class Game {
        }
    }
 
-   const jugarBtn = document.getElementById('jugar-btn');   
-   jugarBtn.addEventListener('click', () => {
-    location.reload();
-   });
+   class Witch {
+    constructor(side) {
+        this.width = 100;
+        this.height = 100;
+        this.speed = Math.random() * 1 + 1;
+        this.side = side;
+        this.element = document.createElement("div");
+        this.element.classList.add("witch");
+
+        if (side === "left") {
+            this.x = -this.width;
+            this.dx = this.speed;
+        } else {
+            this.x = 900;
+            this.dx = this.speed;
+        }
+        this.y = 0;
+        this.updatePosition();
+    }
+
+    updatePosition(){
+        this.element.style.left = `${this.x}px`;
+        this.element.style.top = `${this.y}px`;
+        this.element.style.width = this.width + "px";
+        this.element.style.height = this.height + "px";
+
+    }
+
+    moves() {
+        this.x += this.dx;
+        this.updatePosition();
+    }
+
+    offScreen() {
+        return this.side === "left" ? this.x > 1000 : this.x + this.width < 0;
+    }
+}
+
+    class CrawlingWitch extends Witch {
+        constructor(side) {
+            super(side);
+            this.element.classList.add("crawling-witch");
+            this.y = 300;
+            this.updatePosition();
+        }
+    }
+
+    class FlyingWitch extends Witch {
+        constructor(side) {
+            super(side);
+            this.element.classList.add("flying-witch");
+            this.y = 100;
+            this.updatePosition();
+        }
+    }
+
+    const jugarBtn = document.getElementById('jugar-btn');   
+    jugarBtn.addEventListener('click', () => {
+     location.reload();
+    });
+
+    const toggleSwitch = document.getElementById('toggleMusic');
+    const music = document.getElementById('music');
+ 
+    toggleSwitch.addEventListener('change', function() {
+     if (this.checked) {
+         music.play();
+     }else {
+         music.pause();
+         music.currentTime = 0;
+     }
+    });
+    music.addEventListener('ended', () => toggleMusic.checked = false);
    
    const juego = new Game();
    
