@@ -4,10 +4,12 @@ class Game {
        this.personaje = null;
        this.monedas = [];
        this.puntuacion = 0;
+       this.witches = [];
 
        this.crearEscenario();
        this.agregarEventos();
        this.puntosElement = document.getElementById("puntos");
+       this.witchesGenerator();
 
        this.overlay = document.getElementById('win-overlay');
        this.jugarBtn = document.getElementById('jugar-btn');
@@ -89,8 +91,11 @@ class Game {
            this.velocidad = 30;
            this.element = document.createElement("div");
            this.element.classList.add("personaje");
+           this.element.classList.add("bounce");
            this.actualizarPosicion();
        }
+
+       
        mover(evento) {
         if (evento.key === "ArrowRight" && this.x + this.width < 750) {
           this.x += this.velocidad;

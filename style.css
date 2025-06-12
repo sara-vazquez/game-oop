@@ -197,3 +197,12 @@ body {
     background-color:rgb(228, 173, 153);
     color: #e35926; 
   }
+
+  .bounce {
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%, 0%, 0%, 500%, 100% {transform: translateY(0);}
+    50% {transform: translateY(-10px);}
+    50% {transform: translateY(-10px);}
+  }
