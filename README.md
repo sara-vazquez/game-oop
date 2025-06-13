@@ -1,6 +1,6 @@
 # El hada del bosque 🧚🏻‍♀️
 ![Banner del juego](elhadadelbosque.png)
-[Juega desde aquí 🔗](https://ejemplo.com](https://sara-vazquez.github.io/game-oop/))
+[Juega desde aquí 🔗](https://sara-vazquez.github.io/game-oop/)
 
 __El hada del bosque__ es un juego muy sencillo realizado a partir de la Programación Orientada a Objetos de Javascript. En este juego, el hada debe recoger todas las estrellas para ganar sin que la atrapen las brujas.
 
