@@ -68,9 +68,9 @@ class Game {
         
         clearInterval(this.witchInterval);
         this.witches.forEach(witch => {
-  if (this.container.contains(witch.element)) {
-    this.container.removeChild(witch.element);
-  }
+        if (this.container.contains(witch.element)) {
+        this.container.removeChild(witch.element);
+    }
         });
         this.witches = [];
     }
